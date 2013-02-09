@@ -2,20 +2,43 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 <br><br>
-<p> Please Login to our website </p>
-<form name="login" action="/" method="post">
-	Please Enter your email: <input type="text" name="user_email" value="someone@example.com"><br>
-	Password: <input type="password" name= "password">
-	<input type="submit" value="login">
-</form>
-<br><br><br>
-<p> Or you can create a new account with us </p>
-<form name="NewAccount" action="/newAccount" method="post">
-	Please enter: <br>
-	First name: <input type="text" name="firstName" value="Jon"><br>
-	Last name: <input type="text" name="lastName" value="doe"><br>
-	The email address you would like to use as your login : <input type="text" name="user_email" value="someone@example.com"><br>
-	Password: <input type="password" name= "password">
-	Type the password again: <input type="password" name= "pass2">
-	<input type="submit" value="Create">
-</form>
+
+<div id="Header">
+		<h1><%= title %></h1>
+		<p>Welcome to <%= title %>. I'm hoping to get some sort of logo here....</p> 
+    </div>
+	<div id="Main">
+        <div id="SubMain">
+            <div id="Welcom">
+               	<h2>Welcome to Wishlist!</h2>
+				<p>Here we will put some awsome info about our website!</p>
+            </div>
+            <div id="LogIn">
+               <p> Please Login to our website </p>
+				<form name="login" action="/" method="post">
+					Please Enter your email: <input type="text" name="user_email" value="someone@example.com"><br>
+					Password: <input type="password" name= "password">
+					<input type="submit" value="login">
+				</form>
+				<br><br><br>
+    </div>
+            <div id="SignUp">
+					   <p> Or you can create a new account with us </p>
+						<form name="NewAccount" action="/newAccount" method="post">
+							Please enter: <br>
+							First name: <input type="text" name="firstName" value="Jon"><br>
+							Last name: <input type="text" name="lastName" value="doe"><br>
+							The email address you would like to use as your login : <input type="text" name="user_email" value="someone@example.com"><br>
+							Password: <input type="password" name= "password">
+							Type the password again: <input type="password" name= "pass2">
+							<input type="submit" value="Create">
+						</form>
+        
+            </div>
+		</div>
+	</div>
+    <div id="Footer">
+    	Any copyright info goes here!
+    </div>
+
+
