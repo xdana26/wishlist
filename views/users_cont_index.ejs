@@ -1,7 +1,4 @@
 <% layout('layout') -%>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-<br><br>
 
 <div id="Header">
 		<h1><%= title %></h1>
@@ -14,18 +11,18 @@
 				<p>Here we will put some awsome info about our website!</p>
             </div>
             <div id="LogIn">
-               <p> Please Login to our website </p>
+               <p> Login Here: </p>
 				<form name="login" action="/" method="post">
-					Please Enter your email: <input type="text" name="user_email" value="someone@example.com"><br>
+					Please Enter your email: <input type="text" name="user_email" value="someone@example.com"><br><br>
 					Password: <input type="password" name= "password">
 					<input type="submit" value="login">
 				</form>
 				<br><br><br>
     </div>
             <div id="SignUp">
-					   <p> Or you can create a new account with us </p>
+					   <p> Sign up for an account!</p>
 						<form name="NewAccount" action="/newAccount" method="post">
-							Please enter: <br>
+							Please enter: <br><br>
 							First name: <input type="text" name="firstName" value="Jon"><br>
 							Last name: <input type="text" name="lastName" value="doe"><br>
 							The email address you would like to use as your login : <input type="text" name="user_email" value="someone@example.com"><br>
