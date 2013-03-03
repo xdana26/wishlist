@@ -16,7 +16,6 @@ var itemSearchAmazon = function (amazon_asin, callback){
 	    Availability : 'Available'
 	},function(err,data){
 	    if(err)  return callback(err, null);
-	    displayO.p(data);
 	    return callback(err,data);
 	});
 };
@@ -49,7 +48,8 @@ var getProduct = function(host_id, callback){
 			return callback(null, null);	
 		}
 		else{
-			return callback(null,rows[0]);
+			var returnval = callback(null,rows[0]);
+			return returnval;
 		}
 	})
 	database.end();
@@ -70,7 +70,7 @@ var addNewProduct = function(newProduct, callback){
 	database.query(query, function(err, rows, fields){
 		//rows object contains all the information
 		if(err){
-			return callback(err);	
+			return callback(err);
 		}	
 		//if everything works out well
 	})		
@@ -80,7 +80,7 @@ var addNewProduct = function(newProduct, callback){
 
 var map_wlist_prod = function(wishlist_id, product_id, callback){
 	var database = require('./database').connect();
-	var query = "INSERT INTO wishlist_product (Wishlist_Id, Products_Id) VALUES ("
+	var query = "INSERT INTO wishlists_products (Wishlist_Id, Product_Id) VALUES ("
 		+database.escape(wishlist_id)+","
 		+database.escape(product_id) +");";
 
@@ -95,8 +95,21 @@ var map_wlist_prod = function(wishlist_id, product_id, callback){
 	callback(null);
 }
 
-var getDefaultWishlist = function(user_id){
-
+var getDefaultWishlist_email = function(user_email, callback){
+	var database = require('./database').connect();
+	var query = "SELECT w.W_id "+ 
+				"FROM Users u, Wishlists w "+ 
+				"WHERE w.Owner_user_Id = u.User_Id AND w.Name = 'default' AND u.Email_addr="+database.escape(user_email);
+	database.query(query, function(err, rows, fields){
+		//rows object contains all the information
+		if(err){
+			return callback(err, null);
+		}
+		return callback(null, rows[0].W_id);	
+		//if everything works out well
+	});
+	database.end();
+	
 }
 
 exports.registerProduct = function(req, res){
@@ -119,7 +132,8 @@ exports.registerProduct = function(req, res){
 					return;
 				}
 				if(dbEntry){
-					res.send(JSON.stringify(dbEntry));
+					temperory(req, res,dbEntry, false)
+					
 				}
 				else{
 
@@ -179,21 +193,11 @@ exports.registerProduct = function(req, res){
 						else
 							newProduct.shipping = null;
 						
-						addNewProduct(newProduct, function(err){
-							if(err){
-								console.log("Error add a new product to database");
-								console.log(err);
-								res.send('Failed');
-								return;
-							}
-							else{
-								res.send(JSON.stringify(newProduct));
-							}
-						})
 
+						temperory(req, res, newProduct, true);
 					});
 				}
-			} );
+			});
 
 		}); 
 	}
@@ -203,3 +207,54 @@ exports.registerProduct = function(req, res){
 	}
 };
 
+var temperory = function(req, res, newProduct, NeedToAdd){
+	
+	if(NeedToAdd){
+		addNewProduct(newProduct, function(err){
+			if(err){
+				console.log("Error add a new product to database");
+				console.log(err);
+				res.send('Failed');
+				return;
+			}
+		});	
+		product = getProduct(newProduct.host_id, function(err, dbEntry){
+			if(err){
+				console.log("Error getting Product information from Database for the purpose of displaying")
+				console.log(err);
+				res.send('Failed');
+				return;
+			}
+			if(dbEntry){
+				temperory_an(req, res, dbEntry);
+			}
+			return;
+		});
+	}else{
+		temperory_an(req,res,newProduct);
+	}
+
+};
+
+var temperory_an = function(req, res, newProduct){
+	getDefaultWishlist_email(req.query.e, function(err, wishlist_id){
+		if(err){
+			console.log("Failed to retrieve default wishlist")
+			console.log(err);
+			res.send('Failed');
+			return;
+		}
+
+		map_wlist_prod(wishlist_id, newProduct.P_Id, function(err){
+			if(err){
+				console.log("failed to map wishlist to Product")
+				console.log(err);
+				res.send('Failed');
+				return;
+			}
+			else{
+				res.send(JSON.stringify(newProduct));
+			}
+		});
+	});	
+}

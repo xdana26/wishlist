@@ -49,7 +49,7 @@ exports.addUser = function(req, res){
 		return;
 	}
 	//database can now be accessed
-	var database = database.require('./database').connect();
+	var database = require('./database').connect();
 	var query = "INSERT INTO Users (Email_addr, Password, Lastname, Firstname) VALUES ("
 		+database.escape(user.Email_addr)+","
 		+database.escape(user.Password)+","

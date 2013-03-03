@@ -57,6 +57,9 @@ app.locals.inspect = require('util').inspect;
 app.get('/', users_cont.index);
 app.post('/',users_cont.auth);
 app.post('/newAccount',users_cont.addUser);
+app.get('/scrape.js',function(req, res){
+  res.render('bookmarklet_assist');
+});
 app.get('/scrapper/*', scrapper_cont.registerProduct);
 app.get('/*', default_error_cont.PageNotFound);
 
