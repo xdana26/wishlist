@@ -10,7 +10,7 @@ exports.auth = function(req, res){
 	var email = req.body.user_email;
 	var pass = req.body.password;
 	//database can now be accessed
-	var database = res.app.settings.database;	
+	var database = database.require('./database').connect();	
 
 	var query = "SELECT * FROM Users WHERE Email_addr="+database.escape(email)+"and Password="+database.escape(pass);
 	console.log(query);
@@ -31,6 +31,7 @@ exports.auth = function(req, res){
 			res.app.settings.wishlists_cont.display(req, res, rows[0]);
 		}
 	})
+	database.end();
 };
 
 exports.addUser = function(req, res){
@@ -48,7 +49,7 @@ exports.addUser = function(req, res){
 		return;
 	}
 	//database can now be accessed
-	var database = res.app.settings.database;
+	var database = database.require('./database').connect();
 	var query = "INSERT INTO Users (Email_addr, Password, Lastname, Firstname) VALUES ("
 		+database.escape(user.Email_addr)+","
 		+database.escape(user.Password)+","
@@ -69,4 +70,5 @@ exports.addUser = function(req, res){
 		//if everything works out well
 		res.app.settings.wishlists_cont.newUser(req, res, user);
 	})
+	database.end();
 };
