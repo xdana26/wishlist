@@ -1,0 +1,33 @@
+// function(){
+// 		document.getElementByName
+// 		var xmlhttp;
+// 		xmlhttp=new XMLHttpRequest();
+// 		xmlhttp.onreadystatechange=function(){
+// 		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+// 		    {
+// 		    document.getElementById("").innerHTML=xmlhttp.responseText;
+// 		    }
+// 		}
+// 		xmlhttp.open("GET","localhost:3000",false);
+// 		xmlhttp.send();
+// 		window.open('http://localhost:3000/scrapper/?q='+document.location.href);
+// 	}; -->
+function executeQuery(element){
+	var email =  element.parentNode.childNodes[1].value;
+	window.open('http://localhost:3000/scrapper/?q='+document.location.href+'&e='+email);	
+}
+var execute = function(){
+	var a = (document).createElement('div');
+	a.style.position = 'fixed';
+	a.style.top = '0px';
+	a.style.left = '0px';
+	a.style.padding = '10px';
+	a.style.border = '5px solid black';
+	a.style.backgroundColor = 'white';
+	a.style.zIndex = '100';
+	var html = 'Please enter your Email address: <input type="text" name="email"> <br> <input type="button" value="proceed" onclick="executeQuery(this)">';
+	document.body.appendChild(a);
+	a.innerHTML = html;
+
+};
+execute();

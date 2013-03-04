@@ -10,6 +10,7 @@
     "ejs": "*",
     "stylus": "*",
     "ejs-locals": "~1.0.2",
-    "mysql": "~2.0.0-alpha6"
+    "mysql": "~2.0.0-alpha6",
+    "apa-client": "~0.1.2"
   }
 }

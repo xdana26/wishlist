@@ -9,7 +9,7 @@ var express = require('express')
   , users_cont = require('./routes/users_controller')
   , default_error_cont = require('./routes/default_error_controller')
   , wishlists_cont = require('./routes/wishlists_controller')
-  , mysql = require('mysql')
+  , scrapper_cont = require('./routes/scrapper_controller')
   , http = require('http')
   , path = require('path');
 
@@ -17,18 +17,8 @@ var app = express();
 
 app.engine('ejs', engine);
 
-var mysql      = require('mysql');
-connection = mysql.createConnection({
-  host     : 'fdb5.biz.nf',
-  user     : '1304625_wishlist',
-  password : 'wishlist123'
-});
 
-connection.connect(function(err) {
-  if (err) throw err;
-});
 
-connection.query("use app_wishlist;");
 
 //app.locals.webroot = "http://localhost:3000";
 
@@ -38,7 +28,6 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.set('domain',domain);             //available at res.app.settings.domain
-  app.set('database', connection);        //available at res.app.settings.database
   app.set('wishlists_cont', wishlists_cont);
   app.set('default_error_cont',default_error_cont);
 
@@ -67,7 +56,12 @@ app.locals.inspect = require('util').inspect;
 app.get('/', users_cont.index);
 app.post('/',users_cont.auth);
 app.post('/newAccount',users_cont.addUser);
+app.get('/scrape.js',function(req, res){
+  res.render('bookmarklet_assist');
+});
+app.get('/scrapper/*', scrapper_cont.registerProduct);
 app.get('/*', default_error_cont.PageNotFound);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
