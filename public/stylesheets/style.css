@@ -22,7 +22,7 @@ body {
 }
 #Welcome {
   width: 350px;
-  height: 780px;
+  height: 600px;
   padding: 10px;
   background-color: #808080;
   float: left;
@@ -30,7 +30,7 @@ body {
 #LogIn {
   position: relative;
   width: 410px;
-  height: 380px;
+  height: 200px;
   margin: auto;
   background-color: #fff;
   padding: 10px;

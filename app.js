@@ -19,9 +19,9 @@ app.engine('ejs', engine);
 
 var mysql      = require('mysql');
 connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '1234'
+  host     : 'fdb5.biz.nf',
+  user     : '1304625_wishlist',
+  password : 'wishlist123'
 });
 
 connection.connect(function(err) {
